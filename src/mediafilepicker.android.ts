@@ -1,7 +1,7 @@
-import { Observable } from 'tns-core-modules/data/observable';
+import { Observable } from '@nativescript/core';
 import { MediaPickerInterface, ImagePickerOptions, VideoPickerOptions, AudioPickerOptions, FilePickerOptions } from "./mediafilepicker.common";
-import * as app from 'tns-core-modules/application';
-import * as utils from "tns-core-modules/utils/utils";
+import { Application, AndroidApplication } from '@nativescript/core';
+import { Utils } from "@nativescript/core";
 const permissions = require('nativescript-permissions');
 
 const AudioPickActivity = com.vincent.filepicker.activity.AudioPickActivity;
@@ -43,7 +43,7 @@ export class Mediafilepicker extends Observable implements MediaPickerInterface 
             return;
         }
 
-        intent = new Intent(app.android.foregroundActivity, ImagePickActivity.class);
+        intent = new Intent(Application.android.foregroundActivity, ImagePickActivity.class);
 
         options.isNeedCamera ? intent.putExtra(ImagePickActivity.IS_NEED_CAMERA, true) : intent.putExtra(ImagePickActivity.IS_NEED_CAMERA, false);
 
@@ -68,7 +68,7 @@ export class Mediafilepicker extends Observable implements MediaPickerInterface 
             return;
         }
 
-        intent = new Intent(app.android.foregroundActivity, VideoPickActivity.class);
+        intent = new Intent(Application.android.foregroundActivity, VideoPickActivity.class);
 
         options.isNeedCamera ? intent.putExtra(VideoPickActivity.IS_NEED_CAMERA, true) : intent.putExtra(VideoPickActivity.IS_NEED_CAMERA, false);
 
@@ -103,7 +103,7 @@ export class Mediafilepicker extends Observable implements MediaPickerInterface 
             return;
         }
 
-        intent = new Intent(app.android.foregroundActivity, AudioPickActivity.class);
+        intent = new Intent(Application.android.foregroundActivity, AudioPickActivity.class);
 
         options.isNeedRecorder ? intent.putExtra(AudioPickActivity.IS_NEED_RECORDER, true) : intent.putExtra(AudioPickActivity.IS_NEED_RECORDER, false);
 
@@ -138,7 +138,7 @@ export class Mediafilepicker extends Observable implements MediaPickerInterface 
             }
         }
 
-        intent = new Intent(app.android.foregroundActivity, NormalFilePickActivity.class);
+        intent = new Intent(Application.android.foregroundActivity, NormalFilePickActivity.class);
 
         options.maxNumberFiles ? intent.putExtra(Constant.MAX_NUMBER, options.maxNumberFiles) : intent.putExtra(Constant.MAX_NUMBER, 99);
 
@@ -176,7 +176,7 @@ export class Mediafilepicker extends Observable implements MediaPickerInterface 
 
     private handleOnlyCaptureMode(type: string, options: any) {
 
-        let context = app.android.context, t = this, intent, date, timeStamp, contentValues, file, uri;
+        let context = Application.android.context, t = this, intent, date, timeStamp, contentValues, file, uri;
 
         switch (type) {
 
@@ -280,7 +280,7 @@ export class Mediafilepicker extends Observable implements MediaPickerInterface 
 
         permissions.requestPermission(requestPermissions, "Need these permissions to access files")
             .then(function () {
-                app.android.foregroundActivity.startActivityForResult(intent, pickerType);
+                Application.android.foregroundActivity.startActivityForResult(intent, pickerType);
             })
             .catch(function () {
                 t.msg = "Permission Error!";
@@ -290,10 +290,10 @@ export class Mediafilepicker extends Observable implements MediaPickerInterface 
                 });
             });
 
-        app.android.on(app.AndroidApplication.activityResultEvent, onResult);
+        Application.android.on(AndroidApplication.activityResultEvent, onResult);
 
         function onResult(args) {
-            app.android.off(app.AndroidApplication.activityResultEvent, onResult);
+            Application.android.off(AndroidApplication.activityResultEvent, onResult);
             t.handleResults(args.requestCode, args.resultCode, args.intent);
         }
 
@@ -304,8 +304,8 @@ export class Mediafilepicker extends Observable implements MediaPickerInterface 
      */
     private handleResults(requestCode, resultCode, data) {
 
-        let androidAcivity = android.app.Activity;
-        let context = app.android.context;
+        let androidAcivity = android.Application.Activity;
+        let context = Application.android.context;
         let output = [];
         let t = this;
 
@@ -413,7 +413,7 @@ export class Mediafilepicker extends Observable implements MediaPickerInterface 
 
                     output.push(file);
                 } else {
-                    utils.ad.getApplicationContext().getContentResolver().delete(this.captureContentUrl, null, null);
+                    Utils.ad.getApplicationContext().getContentResolver().delete(this.captureContentUrl, null, null);
                 }
                 break;
 
@@ -429,7 +429,7 @@ export class Mediafilepicker extends Observable implements MediaPickerInterface 
 
                     output.push(file);
                 } else {
-                    utils.ad.getApplicationContext().getContentResolver().delete(this.captureContentUrl, null, null);
+                    Utils.ad.getApplicationContext().getContentResolver().delete(this.captureContentUrl, null, null);
                 }
                 break;
 

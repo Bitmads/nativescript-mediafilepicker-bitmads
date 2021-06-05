@@ -1,8 +1,8 @@
-import { Observable } from 'tns-core-modules/data/observable';
+import { Observable } from '@nativescript/core';
 import { MediaPickerInterface, ImagePickerOptions, VideoPickerOptions, AudioPickerOptions, FilePickerOptions } from "./mediafilepicker.common";
-import * as utils from "tns-core-modules/utils/utils";
-import * as fs from "tns-core-modules/file-system/file-system";
-import { View } from 'tns-core-modules/ui/core/view';
+import {Utils} from "@nativescript/core";
+import * as fs from "@nativescript/core";
+import { View } from '@nativescript/core';
 
 declare const PHAssetMediaTypeImage, PHAssetMediaTypeVideo, PHAssetMediaTypeAudio;
 const main_queue = dispatch_get_current_queue();
@@ -37,7 +37,7 @@ export class Mediafilepicker extends Observable implements MediaPickerInterface 
         controller.delegate = this._mediaPickerIQDeligate;
 
         controller.sourceType = IQMediaPickerControllerSourceType.Library;
-        controller.mediaTypes = utils.ios.collections.jsArrayToNSArray([PHAssetMediaTypeImage]);
+        controller.mediaTypes = Utils.ios.collections.jsArrayToNSArray([PHAssetMediaTypeImage]);
 
         if (options.isCaptureMood) {
             controller.sourceType = IQMediaPickerControllerSourceType.CameraMicrophone;
@@ -86,7 +86,7 @@ export class Mediafilepicker extends Observable implements MediaPickerInterface 
 
                 let output = [];
 
-                let items: any = utils.ios.collections.nsArrayToJSArray(res);
+                let items: any = Utils.ios.collections.nsArrayToJSArray(res);
 
                 for (let i = 0; i < items.length; i++) {
                     let item: DKAsset = items[i];
@@ -132,7 +132,7 @@ export class Mediafilepicker extends Observable implements MediaPickerInterface 
 
         let controller = IQMediaPickerController.alloc().init();
         controller.delegate = this._mediaPickerIQDeligate;
-        controller.mediaTypes = utils.ios.collections.jsArrayToNSArray([PHAssetMediaTypeVideo]);
+        controller.mediaTypes = Utils.ios.collections.jsArrayToNSArray([PHAssetMediaTypeVideo]);
         controller.sourceType = IQMediaPickerControllerSourceType.Library;
 
         if (options.isCaptureMood) {
@@ -151,7 +151,7 @@ export class Mediafilepicker extends Observable implements MediaPickerInterface 
         if (options.allowedVideoQualities) {
 
             if (options.allowedVideoQualities.length > 0) {
-                controller.allowedVideoQualities = utils.ios.collections.jsArrayToNSArray(options.allowedVideoQualities);
+                controller.allowedVideoQualities = Utils.ios.collections.jsArrayToNSArray(options.allowedVideoQualities);
             }
 
         }
@@ -190,7 +190,7 @@ export class Mediafilepicker extends Observable implements MediaPickerInterface 
 
                 let output = [];
 
-                let items: any = utils.ios.collections.nsArrayToJSArray(res);
+                let items: any = Utils.ios.collections.nsArrayToJSArray(res);
 
                 for (let i = 0; i < items.length; i++) {
                     let item: DKAsset = items[i];
@@ -235,7 +235,7 @@ export class Mediafilepicker extends Observable implements MediaPickerInterface 
         let options = params.ios, t = this;
         let controller = IQMediaPickerController.alloc().init();
         controller.delegate = this._mediaPickerIQDeligate;
-        controller.mediaTypes = utils.ios.collections.jsArrayToNSArray([PHAssetMediaTypeAudio]);
+        controller.mediaTypes = Utils.ios.collections.jsArrayToNSArray([PHAssetMediaTypeAudio]);
         controller.sourceType = IQMediaPickerControllerSourceType.Library;
 
         if (options.isCaptureMood) {
@@ -281,7 +281,7 @@ export class Mediafilepicker extends Observable implements MediaPickerInterface 
 
         if (options.extensions) {
             if (options.extensions.length > 0) {
-                documentTypes = utils.ios.collections.jsArrayToNSArray(options.extensions);
+                documentTypes = Utils.ios.collections.jsArrayToNSArray(options.extensions);
             }
         }
 
